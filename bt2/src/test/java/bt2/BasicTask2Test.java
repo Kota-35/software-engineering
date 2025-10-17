@@ -49,4 +49,15 @@ public class BasicTask2Test {
 
         assertEquals(210, expected);
     }
+
+    @Test
+    public void permTest5() {
+
+        int n = 6;
+        int r = 6;
+
+        int expected = BasicTask2.perm(n, r);
+
+        assertEquals(720, expected);
+    }
 }
