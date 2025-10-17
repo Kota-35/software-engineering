@@ -68,6 +68,7 @@ public class BasicTask3 {
             return false;
         }
 
+        // 3 から √n の範囲の奇数でnを割り、どの数でも割り切れない（余りが0でない）場合に true、そうでなければ false    
         boolean result = IntStream.range(3, (int)Math.sqrt(n) + 1)
             .filter(k -> k % 2 == 1)
             .noneMatch(j -> n % j == 0);
