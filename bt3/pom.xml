@@ -72,7 +72,7 @@
             <artifactId>exec-maven-plugin</artifactId>
             <version>3.6.1</version>
             <configuration>
-                <mainClass>bt2.BasicTask2</mainClass>
+                <mainClass>bt3.BasicTask3</mainClass>
             </configuration>
         </plugin>
       </plugins>
