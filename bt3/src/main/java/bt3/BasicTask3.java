@@ -1,5 +1,6 @@
 package bt3;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class BasicTask3 {
     //numbersの要素が素数か否かを判定し，素数であればprimesの要素とする
@@ -51,6 +52,28 @@ public class BasicTask3 {
 
         // すべてのチェックを通過したら素数
         return true;
+    }
+
+    /**
+     * 引数n が 素数かどうか判定する( Stream と ラムダ式を用いた)
+     * こちらの法が、可読性がたかいがパフォーマンスがオーバーヘッドでかつメモリ使用量の増加につながる
+     */
+    public static boolean isPrimeFP(int n) {
+        // 2は唯一の偶数の素数
+        if (n == 2) {
+            return true;
+        } 
+        // 2以外の偶数は素数ではない
+        else if (n % 2 == 0) {
+            return false;
+        }
+
+        boolean result = IntStream.range(3, (int)Math.sqrt(n) + 1)
+            .filter(k -> k % 2 == 1)
+            .noneMatch(j -> n % j == 0);
+
+        // すべてのチェックを通過したら素数
+        return result;
     }
 
     // このメソッドは無視でOK
