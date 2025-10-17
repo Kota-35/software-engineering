@@ -23,6 +23,16 @@ public class BasicTask1 {
     public static boolean isRem1() {
         boolean result = true;
         // この中身を実装する
+
+        for (int i = 3; i <= max; i++) {
+            if (i % 2 == 1) {
+                int modulo = i * i % 8;
+                if (modulo != 1) {
+                    result = false;
+                    break;
+                }
+            }
+        }
         return result;
     }
 
