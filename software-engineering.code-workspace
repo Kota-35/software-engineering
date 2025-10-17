@@ -6,6 +6,10 @@
         {
             "name": "SE-BT1",
             "path": "./bt1"
+        },
+        {
+            "name": "SE-BT2",
+            "path": "./bt2"
         }
     ],
     "settings": {
