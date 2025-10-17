@@ -24,10 +24,16 @@ public class BasicTask1 {
         boolean result = true;
         // この中身を実装する
 
+        // 3 から M を走査
         for (int i = 3; i <= max; i++) {
+
+            // i が奇数のとき
             if (i % 2 == 1) {
+                
+                // あまりを計算
                 int modulo = i * i % 8;
                 if (modulo != 1) {
+                    // 余りが1でない場合は result を false にして for文を抜ける
                     result = false;
                     break;
                 }

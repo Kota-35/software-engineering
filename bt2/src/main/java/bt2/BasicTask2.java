@@ -16,15 +16,18 @@ public class BasicTask2 {
     public static int perm(int n, int r) {
         // この中身を実装する
 
+        // r が条件を満たさない場合, 標準出力で理由を出力し 0 を返す
         if (r < 1 || r > n) {
             System.out.println("rは 1 <= r <=" + n + "の範囲である必要があります" );
             return 0;
         }
 
+        // r が 1の時は nを返すようにする (初期値)
         if (r == 1) {
             return n;
         }
 
+        // 再帰的に順列を計算する
         int result = n * perm(n - 1, r - 1);
 
         return result;
