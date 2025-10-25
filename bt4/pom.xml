@@ -71,7 +71,7 @@
             <artifactId>exec-maven-plugin</artifactId>
             <version>3.6.1</version>
             <configuration>
-                <mainClass>bt3.BasicTask3</mainClass>
+                <mainClass>bt4.BasicTask4</mainClass>
             </configuration>
         </plugin>
       </plugins>
