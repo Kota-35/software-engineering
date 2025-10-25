@@ -14,6 +14,10 @@
         {
             "name": "SE-BT3",
             "path": "./bt3"
+        },
+        {
+            "name": "SE-BT4",
+            "path": "./bt4"
         }
     ],
     "settings": {
