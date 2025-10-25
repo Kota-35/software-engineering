@@ -59,8 +59,8 @@ public class NumberSlime {
      * setterを実装
      * @param number
      */
-    public void setNumber(int number) {
-        this.number = number;
+    public void setNumber(int num) {
+        this.number = num;
     }
 }
 
