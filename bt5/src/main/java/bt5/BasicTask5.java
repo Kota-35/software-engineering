@@ -1,6 +1,7 @@
 package bt5;
 import java.util.List;
 import java.util.Objects;
+
 public class BasicTask5 {
     public static void main(String[] args) {
         WordSearcher wordSearcher = new WordSearcher();
