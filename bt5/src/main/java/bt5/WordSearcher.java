@@ -43,6 +43,7 @@ public class WordSearcher {
         System.out.println("Input search key:");
         // ユーザから検索キーの入力を受け付けて，keyに参照させる
         // ここから
+        // keyの入力を取得
         Scanner scanner = new Scanner(System.in);
         key = scanner.nextLine();
 
@@ -74,12 +75,17 @@ public class WordSearcher {
         // ファイルから全文字列を読み出す．
         // 読み出す文字列は1行（改行まで）を1要素としてlinesに全行分追加する．
         // ここから
+        // ファイルから全行を読み込むために，try-with-resources文を使用して
+        // BufferedReaderとFileReaderを組み合わせて読み込む．
         try (BufferedReader reader = new BufferedReader(new FileReader(searchTarget))) {
             String line;
+            // readLine()メソッドで1行ずつ読み込み，ファイルの終わり（null）に達するまで繰り返す．
+            // 各行をlinesリストに追加することで，ファイル全体の内容を保持する．
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
         } catch (IOException e) {
+            // ファイル読み込み中にエラーが発生した場合，スタックトレースを出力して処理を継続する．
             e.printStackTrace();
         }
 
@@ -90,15 +96,21 @@ public class WordSearcher {
     private void outputFile(LinkedList<SearchResult> searchResults) {
         // 標準出力と同じ内容をoutput.txtに出力する．
         // ここから
+        // 検索結果をoutput.txtに出力するために，try-with-resources文を使用して
+        // PrintWriterとFileWriterを組み合わせて書き込む．
         try (PrintWriter writer = new PrintWriter(new FileWriter("output.txt"))) {
+            // 検索結果が空の場合は，"Not Found"を出力する．
             if (searchResults.isEmpty()) {
                 writer.println("Not Found");
             } else {
+                // 検索結果がある場合，各SearchResultを1行ずつ出力する．
+                // SearchResultのtoString()メソッドにより，"行番号:位置"の形式で出力される．
                 for (SearchResult result : searchResults) {
                     writer.println(result);
                 }
             }
         } catch (IOException e) {
+            // ファイル書き込み中にエラーが発生した場合，スタックトレースを出力して処理を継続する．
             e.printStackTrace();
         }
 
