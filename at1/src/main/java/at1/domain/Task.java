@@ -1,11 +1,10 @@
 package at1.domain;
 
 public class Task {
-    
+
     private int id;
     private String name;
     private boolean isDone;
-
 
     public Task(int id, String name) {
         this.id = id;
@@ -16,7 +15,7 @@ public class Task {
     public int getId() {
         return this.id;
     }
-    
+
     public String getName() {
         return this.name;
     }
@@ -30,11 +29,6 @@ public class Task {
     }
 
 
-    // 表示用メソッド
-    public String toDisplayString() {
-        return id + ": " + name + (isDone ? " DONE!" : "");
-    }
-    
     // 保存用メソッド
     public String toSaveString() {
         return id + "," + name + "," + isDone;
