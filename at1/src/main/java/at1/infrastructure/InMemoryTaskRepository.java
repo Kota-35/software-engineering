@@ -1,13 +1,12 @@
 package at1.infrastructure;
 
+import at1.domain.Task;
+import at1.domain.TaskRepository;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import at1.domain.Task;
-import at1.domain.TaskRepository;
 
 public class InMemoryTaskRepository implements TaskRepository {
     private Map<Integer, Task> tasks;
@@ -19,9 +18,11 @@ public class InMemoryTaskRepository implements TaskRepository {
     }
 
     @Override
-    public void add(String name) {
-        tasks.put(nextId, new Task(nextId, name));
+    public Task add(String name) {
+        Task task = new Task(nextId, name);
+        tasks.put(nextId, task);
         nextId++;
+        return task;
     }
 
     @Override
@@ -59,5 +60,15 @@ public class InMemoryTaskRepository implements TaskRepository {
                 nextId = task.getId() + 1;
             }
         }
+    }
+
+    @Override
+    public long calculateDoneCount() {
+        return findAll().stream().filter(task -> task.isDone()).count();
+    }
+
+    @Override
+    public long calculateNotDoneCount() {
+        return findAll().stream().filter(task -> !task.isDone()).count();
     }
 }

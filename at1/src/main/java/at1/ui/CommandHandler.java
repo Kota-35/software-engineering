@@ -1,11 +1,12 @@
 package at1.ui;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 import at1.domain.Task;
 import at1.domain.TaskRepository;
 import at1.service.TaskService;
+import at1.util.ConsoleColors;
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
 
 public class CommandHandler {
     private TaskRepository repository;
@@ -20,8 +21,11 @@ public class CommandHandler {
 
     public void run() {
         while (true) {
+            // [UX向上] プロンプト表示を追加
+            System.out.print(ConsoleColors.prompt("TODO> "));
             String input = scanner.nextLine().trim();
-            if (input.isEmpty()) continue;
+            if (input.isEmpty())
+                continue;
 
             String[] parts = input.split(" ", 2);
             String command = parts[0];
@@ -51,7 +55,9 @@ public class CommandHandler {
     }
 
     private void handlePost(String name) {
-        repository.add(name);
+        Task addedTask = repository.add(name);
+        System.out.println(ConsoleColors.success("✓") + " Added task #" + addedTask.getId() + " "
+                + addedTask.getName());
     }
 
     private void handleDone(String idStr) {
@@ -60,8 +66,22 @@ public class CommandHandler {
     }
 
     private void handleShow() {
-        for (Task task : repository.findAll()) {
-            System.out.println(task.toDisplayString());
+        List<Task> tasks = repository.findAll();
+        String headerText = ConsoleColors.colorize("Tasks: " + tasks.size() + " total, ",
+                ConsoleColors.BOLD + ConsoleColors.CYAN)
+                + ConsoleColors.colorize(repository.calculateDoneCount() + " Done, ",
+                        ConsoleColors.GREEN + ConsoleColors.BOLD)
+                + ConsoleColors.colorize(repository.calculateNotDoneCount() + " Not done\n",
+                        ConsoleColors.BOLD + ConsoleColors.YELLOW);
+        System.out.println(headerText);
+
+        for (Task task : tasks) {
+            String checkBox =
+                    task.isDone() ? ConsoleColors.success("[✓]") : ConsoleColors.warning("[ ]");
+
+            System.out.println(checkBox + " "
+                    + ConsoleColors.colorize(task.getId() + ":", ConsoleColors.BLUE) + " "
+                    + task.getName() + " " + (task.isDone() ? ConsoleColors.success("DONE!") : ""));
         }
     }
 
@@ -79,6 +99,8 @@ public class CommandHandler {
     }
 
     private void handleError(Exception e) {
-        System.err.println("Error: "+ e.getMessage());
+        System.err.println("Error: " + e.getMessage());
     }
 }
+
+

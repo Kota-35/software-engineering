@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskRepository {
-    void add(String name);
-    
+    Task add(String name);
+
     Optional<Task> findById(int id);
-    
+
     List<Task> findAll();
 
     void markAsDone(int id);
@@ -17,4 +17,8 @@ public interface TaskRepository {
     void clear();
 
     void replaceAll(List<Task> tasks);
+
+    long calculateDoneCount();
+
+    long calculateNotDoneCount();
 }
