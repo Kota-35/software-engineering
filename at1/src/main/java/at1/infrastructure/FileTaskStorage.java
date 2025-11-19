@@ -1,5 +1,6 @@
 package at1.infrastructure;
 
+import at1.domain.Task;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,25 +10,23 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import at1.domain.Task;
-
 public class FileTaskStorage {
     private static final String FILE_NAME = "todo.txt";
 
     public void saveTasks(List<Task> tasks) throws IOException {
         File file = new File(FILE_NAME);
-        
+
         // 親ディレクトリが存在しない場合は作成
         File parentDir = file.getParentFile();
         if (parentDir != null && !parentDir.exists()) {
             parentDir.mkdirs();
         }
-        
+
         // ファイルが存在しない場合は作成
         if (!file.exists()) {
             file.createNewFile();
         }
-        
+
         try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
             for (Task task : tasks) {
                 writer.println(serializeTask(task));
@@ -47,7 +46,7 @@ public class FileTaskStorage {
             String line;
             while ((line = reader.readLine()) != null) {
                 Task task = deserializeTask(line);
-                if (task != null ) {
+                if (task != null) {
                     tasks.add(task);
                 }
             }
