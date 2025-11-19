@@ -22,6 +22,10 @@
         {
             "name": "SE-BT5",
             "path": "./bt5"
+        },
+        {
+            "name": "SE-AT1",
+            "path": "./at1"
         }
     ],
     "settings": {
