@@ -97,9 +97,33 @@ public class CommandHandler {
     }
 
     private void handleDelete(String idStr) {
-        int id = Integer.parseInt(idStr);
-        repository.delete(id);
-        System.out.println(ConsoleColors.success("✓") + " Deleted task #" + id);
+
+        try {
+            int id = Integer.parseInt(idStr);
+
+            // タスクの存在確認
+            Task task = repository.findById(id);
+
+            // 確認プロンプト表示
+            System.out.print(ConsoleColors.prompt("Delete task #" + id + ": \"") + task.getName()
+                    + ConsoleColors.prompt("\"? (y/N): "));
+
+            String confirmation = scanner.nextLine().trim().toLowerCase();
+
+            if (confirmation.equals("y") || confirmation.equals("yes")) {
+                repository.delete(id);
+                System.out.println(ConsoleColors.success("✓") + " Deleted task #" + id);
+            } else {
+                System.out.println(ConsoleColors.warning("Cancelled deletion."));
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(ConsoleColors.error("Error: ") + "Invalid ID " + idStr
+                    + ". ID must be a number.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(ConsoleColors.error("Error: ") + e.getMessage()
+                    + " Use 'show' to see available tasks.");
+        }
+
     }
 
     private void handleSave() throws IOException {

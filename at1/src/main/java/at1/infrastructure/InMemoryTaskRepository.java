@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class InMemoryTaskRepository implements TaskRepository {
     private Map<Integer, Task> tasks;
@@ -26,8 +25,12 @@ public class InMemoryTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> findById(int id) {
-        return Optional.ofNullable(tasks.get(id));
+    public Task findById(int id) throws IllegalArgumentException {
+        Task task = tasks.get(id);
+        if (task == null) {
+            throw new IllegalArgumentException("Task #" + id + " not found.");
+        }
+        return task;
     }
 
     @Override
@@ -37,13 +40,13 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     @Override
     public void markAsDone(int id) throws IllegalArgumentException {
-        findById(id).orElseThrow(() -> new IllegalArgumentException("Task #" + id + " nod found."))
-                .setDone(true);;
+        findById(id).setDone(true);
     }
 
     @Override
-    public void delete(int id) {
-        tasks.remove(id);
+    public void delete(int id) throws IllegalArgumentException {
+        Task task = findById(id);
+        tasks.remove(task.getId());
     }
 
     @Override
