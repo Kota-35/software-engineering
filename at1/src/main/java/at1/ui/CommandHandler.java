@@ -109,7 +109,8 @@ public class CommandHandler {
 
     private void handleLoad() throws IOException {
         service.load();
-        System.out.println(ConsoleColors.success("✓") + " Loaded tasks from file.");
+        System.out.println(ConsoleColors.success("✓") + " Loaded " + repository.getTaskSize()
+                + " tasks from file.");
     }
 
     private void handleError(Exception e) {

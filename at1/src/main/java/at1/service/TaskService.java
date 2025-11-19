@@ -7,24 +7,24 @@ import java.io.IOException;
 import java.util.List;
 
 public class TaskService {
-  private TaskRepository repository;
-  private FileTaskStorage storage;
+    private TaskRepository repository;
+    private FileTaskStorage storage;
 
-  public TaskService(TaskRepository repository, FileTaskStorage storage) {
-    this.repository = repository;
-    this.storage = storage;
-  }
+    public TaskService(TaskRepository repository, FileTaskStorage storage) {
+        this.repository = repository;
+        this.storage = storage;
+    }
 
-  // タスクをストレージに保存
-  public void save() throws IOException {
-    List<Task> tasks = repository.findAll();
-    storage.saveTasks(tasks);
-  }
+    // タスクをストレージに保存
+    public void save() throws IOException {
+        List<Task> tasks = repository.findAll();
+        storage.saveTasks(tasks);
+    }
 
-  public void load() throws IOException {
-    List<Task> tasks = storage.loadTasks();
-    repository.replaceAll(tasks);
-  }
+    public void load() throws IOException {
+        List<Task> tasks = storage.loadTasks();
+        repository.replaceAll(tasks);
+    }
 
-  // TODO: 完了率の計算など
+    // TODO: 完了率の計算など
 }

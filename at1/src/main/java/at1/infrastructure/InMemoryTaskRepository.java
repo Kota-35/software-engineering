@@ -72,4 +72,9 @@ public class InMemoryTaskRepository implements TaskRepository {
     public long calculateNotDoneCount() {
         return findAll().stream().filter(task -> !task.isDone()).count();
     }
+
+    @Override
+    public long getTaskSize() {
+        return findAll().size();
+    }
 }
