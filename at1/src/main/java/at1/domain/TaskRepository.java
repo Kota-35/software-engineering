@@ -20,7 +20,7 @@ public interface TaskRepository {
 
     long calculateDoneCount();
 
-    long calculateNotDoneCount();
+    long calculateTodoCount();
 
     long getTaskSize();
 }

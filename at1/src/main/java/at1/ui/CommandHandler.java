@@ -38,7 +38,8 @@ public class CommandHandler {
                 } else if (command.equals("done") && parts.length == 2) {
                     handleDone(parts[1]);
                 } else if (command.equals("show")) {
-                    handleShow();
+                    String options = parts.length > 1 ? parts[1] : "";
+                    handleShow(options);
                 } else if (command.equals("delete") && parts.length == 2) {
                     handleDelete(parts[1]);
                 } else if (command.equals("save")) {
@@ -77,13 +78,26 @@ public class CommandHandler {
 
     }
 
-    private void handleShow() {
-        List<Task> tasks = repository.findAll();
+    private void handleShow(String options) {
+        List<Task> allTasks = repository.findAll();
+        List<Task> tasks;
+
+        // オプションに基づいてフィルタリング
+        if (options.contains("--done")) {
+            tasks = allTasks.stream().filter(Task::isDone)
+                    .collect(java.util.stream.Collectors.toList());
+        } else if (options.contains("--todo")) {
+            tasks = allTasks.stream().filter(task -> !task.isDone())
+                    .collect(java.util.stream.Collectors.toList());
+        } else {
+            tasks = allTasks;
+        }
+
         String headerText = ConsoleColors.colorize("Tasks: " + tasks.size() + " total, ",
                 ConsoleColors.BOLD + ConsoleColors.CYAN)
                 + ConsoleColors.colorize(repository.calculateDoneCount() + " done, ",
                         ConsoleColors.GREEN + ConsoleColors.BOLD)
-                + ConsoleColors.colorize(repository.calculateNotDoneCount() + " not done\n",
+                + ConsoleColors.colorize(repository.calculateTodoCount() + " todo\n",
                         ConsoleColors.BOLD + ConsoleColors.YELLOW);
         System.out.println(headerText);
 
@@ -143,14 +157,16 @@ public class CommandHandler {
 
     private void handleHelp() {
         System.out.println("Available commands: ");
-        System.out.println("  post <text>   Add a new task");
-        System.out.println("  done <id>     Mark a task as done");
-        System.out.println("  show          Show all tasks");
-        System.out.println("  delete <id>   Delete a task");
-        System.out.println("  save          Save tasks to file");
-        System.out.println("  load          Load tasks from file");
-        System.out.println("  help          Show this help message");
-        System.out.println("  exit          Quit application");
+        System.out.println("  post <text>      Add a new task");
+        System.out.println("  done <id>        Mark a task as done");
+        System.out.println("  show             Show all tasks");
+        System.out.println("  show --done      Show only completed tasks");
+        System.out.println("  show --todo      Show only incomplete tasks");
+        System.out.println("  delete <id>      Delete a task");
+        System.out.println("  save             Save tasks to file");
+        System.out.println("  load             Load tasks from file");
+        System.out.println("  help             Show this help message");
+        System.out.println("  exit             Quit application");
     }
 }
 

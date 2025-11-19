@@ -72,7 +72,7 @@ public class InMemoryTaskRepository implements TaskRepository {
     }
 
     @Override
-    public long calculateNotDoneCount() {
+    public long calculateTodoCount() {
         return findAll().stream().filter(task -> !task.isDone()).count();
     }
 
