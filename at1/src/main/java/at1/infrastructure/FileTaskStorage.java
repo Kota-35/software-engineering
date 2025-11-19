@@ -7,7 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FileTaskStorage {
@@ -56,18 +58,31 @@ public class FileTaskStorage {
     }
 
     private String serializeTask(Task task) {
-        return task.getId() + "," + task.getName() + "," + task.isDone();
+        return task.getId() + "," + task.getName() + "," + task.isDone() + ","
+                + task.getCreatedAt().getTime();
     }
 
     private Task deserializeTask(String line) {
         try {
-            String[] parts = line.split(",", 3);
+            String[] parts = line.split(",", 4);
             int id = Integer.parseInt(parts[0]);
             String name = parts[1];
             boolean isDone = Boolean.parseBoolean(parts[2]);
+            Date createdAt;
+
+            // 数値（long値）として保存されている場合
+            try {
+                long timestamp = Long.parseLong(parts[3]);
+                createdAt = new Date(timestamp);
+            } catch (NumberFormatException e) {
+                // 既存のDate.toString()形式の場合
+                SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+                createdAt = format.parse(parts[3]);
+            }
 
             Task task = new Task(id, name);
             task.setDone(isDone);
+            task.setCreatedAt(createdAt);
             return task;
         } catch (Exception e) {
             return null;
