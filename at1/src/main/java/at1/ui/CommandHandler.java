@@ -1,0 +1,84 @@
+package at1.ui;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+import at1.domain.Task;
+import at1.domain.TaskRepository;
+import at1.service.TaskService;
+
+public class CommandHandler {
+    private TaskRepository repository;
+    private TaskService service;
+    private Scanner scanner;
+
+    public CommandHandler(TaskRepository repository, TaskService service) {
+        this.repository = repository;
+        this.service = service;
+        this.scanner = new Scanner(System.in);
+    }
+
+    public void run() {
+        while (true) {
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) continue;
+
+            String[] parts = input.split(" ", 2);
+            String command = parts[0];
+
+            try {
+                if (command.equals("exit")) {
+                    break;
+                } else if (command.equals("post") && parts.length == 2) {
+                    handlePost(parts[1]);
+                } else if (command.equals("done") && parts.length == 2) {
+                    handleDone(parts[1]);
+                } else if (command.equals("show")) {
+                    handleShow();
+                } else if (command.equals("delete") && parts.length == 2) {
+                    handleDelete(parts[1]);
+                } else if (command.equals("save")) {
+                    handleSave();
+                } else if (command.equals("load")) {
+                    handleLoad();
+                } else {
+                    System.out.println("Command: " + command + " not found.");
+                }
+            } catch (Exception e) {
+                handleError(e);
+            }
+        }
+    }
+
+    private void handlePost(String name) {
+        repository.add(name);
+    }
+
+    private void handleDone(String idStr) {
+        int id = Integer.parseInt(idStr);
+        repository.markAsDone(id);
+    }
+
+    private void handleShow() {
+        for (Task task : repository.findAll()) {
+            System.out.println(task.toDisplayString());
+        }
+    }
+
+    private void handleDelete(String idStr) {
+        int id = Integer.parseInt(idStr);
+        repository.delete(id);
+    }
+
+    private void handleSave() throws IOException {
+        service.save();
+    }
+
+    private void handleLoad() throws IOException {
+        service.load();
+    }
+
+    private void handleError(Exception e) {
+        System.err.println("Error: "+ e.getMessage());
+    }
+}
