@@ -29,4 +29,14 @@ public class Task {
         this.isDone = done;
     }
 
+
+    // 表示用メソッド
+    public String toDisplayString() {
+        return id + ": " + name + (isDone ? " DONE!" : "");
+    }
+    
+    // 保存用メソッド
+    public String toSaveString() {
+        return id + "," + name + "," + isDone;
+    }
 }
