@@ -36,8 +36,9 @@ public class InMemoryTaskRepository implements TaskRepository {
     }
 
     @Override
-    public void markAsDone(int id) {
-        findById(id).ifPresent(task -> task.setDone(true));
+    public void markAsDone(int id) throws IllegalArgumentException {
+        findById(id).orElseThrow(() -> new IllegalArgumentException("Task #" + id + " nod found."))
+                .setDone(true);;
     }
 
     @Override

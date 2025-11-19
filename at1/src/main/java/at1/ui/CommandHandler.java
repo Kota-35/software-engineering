@@ -45,6 +45,8 @@ public class CommandHandler {
                     handleSave();
                 } else if (command.equals("load")) {
                     handleLoad();
+                } else if (command.equals("help")) {
+                    handleHelp();
                 } else {
                     System.out.println("Command: " + command + " not found.");
                 }
@@ -61,23 +63,32 @@ public class CommandHandler {
     }
 
     private void handleDone(String idStr) {
-        int id = Integer.parseInt(idStr);
-        repository.markAsDone(id);
+        try {
+            int id = Integer.parseInt(idStr);
+
+            repository.markAsDone(id);
+        } catch (NumberFormatException e) {
+            System.out.println(ConsoleColors.error("Error: ") + "Invalid ID " + idStr
+                    + ". ID must be a number.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(ConsoleColors.error("Error: ") + e.getMessage()
+                    + " Use 'show' to see available tasks.");
+        }
+
     }
 
     private void handleShow() {
         List<Task> tasks = repository.findAll();
         String headerText = ConsoleColors.colorize("Tasks: " + tasks.size() + " total, ",
                 ConsoleColors.BOLD + ConsoleColors.CYAN)
-                + ConsoleColors.colorize(repository.calculateDoneCount() + " Done, ",
+                + ConsoleColors.colorize(repository.calculateDoneCount() + " done, ",
                         ConsoleColors.GREEN + ConsoleColors.BOLD)
-                + ConsoleColors.colorize(repository.calculateNotDoneCount() + " Not done\n",
+                + ConsoleColors.colorize(repository.calculateNotDoneCount() + " not done\n",
                         ConsoleColors.BOLD + ConsoleColors.YELLOW);
         System.out.println(headerText);
 
         for (Task task : tasks) {
-            String checkBox =
-                    task.isDone() ? ConsoleColors.success("[✓]") : ConsoleColors.warning("[ ]");
+            String checkBox = task.isDone() ? ConsoleColors.success("[✓]") : "[ ]";
 
             System.out.println(checkBox + " "
                     + ConsoleColors.colorize(task.getId() + ":", ConsoleColors.BLUE) + " "
@@ -88,18 +99,33 @@ public class CommandHandler {
     private void handleDelete(String idStr) {
         int id = Integer.parseInt(idStr);
         repository.delete(id);
+        System.out.println(ConsoleColors.success("✓") + " Deleted task #" + id);
     }
 
     private void handleSave() throws IOException {
         service.save();
+        System.out.println(ConsoleColors.success("✓") + " Saved tasks to file.");
     }
 
     private void handleLoad() throws IOException {
         service.load();
+        System.out.println(ConsoleColors.success("✓") + " Loaded tasks from file.");
     }
 
     private void handleError(Exception e) {
         System.err.println("Error: " + e.getMessage());
+    }
+
+    private void handleHelp() {
+        System.out.println("Available commands: ");
+        System.out.println("  post <text>   Add a new task");
+        System.out.println("  done <id>     Mark a task as done");
+        System.out.println("  show          Show all tasks");
+        System.out.println("  delete <id>   Delete a task");
+        System.out.println("  save          Save tasks to file");
+        System.out.println("  load          Load tasks from file");
+        System.out.println("  help          Show this help message");
+        System.out.println("  exit          Quit application");
     }
 }
 

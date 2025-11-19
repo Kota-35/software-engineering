@@ -10,7 +10,7 @@ public interface TaskRepository {
 
     List<Task> findAll();
 
-    void markAsDone(int id);
+    void markAsDone(int id) throws IllegalArgumentException;
 
     void delete(int id);
 
