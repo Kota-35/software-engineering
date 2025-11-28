@@ -10,9 +10,6 @@ import java.util.Scanner;
 
 /**
  * コマンド入力を処理するハンドラークラス
- * 
- * ユーザーからのコマンド入力を受け付け、解析し、 適切なビジネスロジックを実行する。UI層の中核を担う。 7つの基本コマンド（post, done, show, delete, save,
- * load, exit）と 拡張コマンド（help）を提供する。
  */
 public class CommandHandler {
     /** タスク操作のためのリポジトリ */
@@ -38,8 +35,6 @@ public class CommandHandler {
 
     /**
      * コマンドループを実行する
-     * 
-     * ユーザーからのコマンド入力を繰り返し受け付け、 exitコマンドが入力されるまで処理を継続する。 各コマンドは対応するハンドラーメソッドに委譲される。
      */
     public void run() {
         // exitコマンドが入力されるまで無限ループ
