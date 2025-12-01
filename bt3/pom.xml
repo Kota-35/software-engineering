@@ -71,11 +71,17 @@
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
             <version>3.6.1</version>
-            <configuration>
-                <mainClass>bt3.BasicTask3</mainClass>
-            </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>bt3.BasicTask3</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
