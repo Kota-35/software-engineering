@@ -1,7 +1,6 @@
 package at1.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,7 @@ import at1.infrastructure.FileTaskStorage;
 import at1.infrastructure.InMemoryTaskRepository;
 
 public class TaskServiceTest {
-    
+
     private TaskRepository repository;
     private FileTaskStorage storage;
     private TaskService service;
@@ -50,9 +49,9 @@ public class TaskServiceTest {
         repository.add("Task 1");
         repository.add("Task 2");
         repository.add("Task 3");
-        
+
         service.save();
-        
+
         // ファイルが作成されていることを確認
         File file = new File(TEST_FILE);
         assertEquals(true, file.exists());
@@ -61,7 +60,7 @@ public class TaskServiceTest {
     @Test
     public void testSaveEmpty() throws IOException {
         service.save();
-        
+
         // 空のリストでもファイルが作成されることを確認
         File file = new File(TEST_FILE);
         assertEquals(true, file.exists());
@@ -73,14 +72,14 @@ public class TaskServiceTest {
         repository.add("Task 1");
         repository.add("Task 2");
         service.save();
-        
+
         // リポジトリをクリア
         repository.clear();
         assertEquals(0, repository.findAll().size());
-        
+
         // ファイルから読み込み
         service.load();
-        
+
         // タスクが復元されていることを確認
         List<Task> tasks = repository.findAll();
         assertEquals(2, tasks.size());
@@ -92,7 +91,7 @@ public class TaskServiceTest {
     public void testLoadEmptyFile() throws IOException {
         // ファイルが存在しない場合でも例外が発生しないことを確認
         service.load();
-        
+
         List<Task> tasks = repository.findAll();
         assertEquals(0, tasks.size());
     }
@@ -100,18 +99,18 @@ public class TaskServiceTest {
     @Test
     public void testSaveAndLoad() throws IOException {
         // タスクを追加
-        Task task1 = repository.add("Task 1");
-        Task task2 = repository.add("Task 2");
+        repository.add("Task 1");
+        repository.add("Task 2");
         repository.markAsDone(1);
-        
+
         // 保存
         service.save();
-        
+
         // 新しいリポジトリで読み込み
         TaskRepository newRepository = new InMemoryTaskRepository();
         TaskService newService = new TaskService(newRepository, storage);
         newService.load();
-        
+
         // データが正しく復元されていることを確認
         List<Task> tasks = newRepository.findAll();
         assertEquals(2, tasks.size());
