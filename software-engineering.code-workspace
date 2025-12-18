@@ -34,6 +34,10 @@
         {
             "name": "SE-BT7",
             "path": "./bt7"
+        },
+        {
+            "name": "SE-AT2",
+            "path": "./at2"
         }
     ],
     "settings": {
