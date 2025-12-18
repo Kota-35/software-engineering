@@ -81,5 +81,28 @@ public class GameHistory {
         int totalBlow = results.stream().mapToInt(GameResult::getBlow).sum();
         return (totalBlow * 100) / (4 * results.size());
     }
+
+    /**
+     * ゲームがクリアされたかどうかを判定
+     * 
+     * @return クリアされた場合true（4Hitが含まれている場合）
+     */
+    public boolean isCleared() {
+        return results.stream().anyMatch(GameResult::isComplete);
+    }
+
+    /**
+     * クリアに要した試行回数を取得 クリアされていない場合は-1を返す
+     * 
+     * @return クリアに要した試行回数、クリアされていない場合は-1
+     */
+    public int getClearAttempts() {
+        for (int i = 0; i < results.size(); i++) {
+            if (results.get(i).isComplete()) {
+                return i + 1; // 1から始まる試行回数
+            }
+        }
+        return -1; // クリアされていない
+    }
 }
 

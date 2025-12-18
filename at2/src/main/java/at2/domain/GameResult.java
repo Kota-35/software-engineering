@@ -1,5 +1,7 @@
 package at2.domain;
 
+import at2.util.ConsoleColors;
+
 /**
  * 1回の入力に対する結果を表すドメインモデル
  */
@@ -64,6 +66,17 @@ public class GameResult {
      */
     public String toOutputString() {
         return guess.getValue() + " Hit:" + hit + " Blow:" + blow;
+    }
+
+    /**
+     * 結果をカラー付き文字列形式で取得（標準出力用） Hitは緑色、Blowは黄色で表示
+     * 
+     * @return カラー装飾された "入力 Hit:数 Blow:数" 形式の文字列
+     */
+    public String toColoredOutputString() {
+        String hitColored = ConsoleColors.success("Hit:" + hit);
+        String blowColored = ConsoleColors.warning("Blow:" + blow);
+        return guess.getValue() + " " + hitColored + " " + blowColored;
     }
 }
 
